@@ -34,4 +34,4 @@ jobs:
 
       - name: Start the server
         if: ${{ always() }}
-        run: ssh prod 'sudo pm2 start Web'
+        run: ssh prod 'sudo pm2 restart Web'

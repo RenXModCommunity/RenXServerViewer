@@ -30,7 +30,7 @@ jobs:
         run: ssh prod 'sudo pm2 stop Web'
 
       - name: Check out the source
-        run: ssh prod 'cd RenXServerViewer && git fetch && git reset --hard origin/main'
+        run: ssh prod 'cd RenXServerViewer && git fetch && git reset --hard origin/main && npm i'
 
       - name: Start the server
         if: ${{ always() }}

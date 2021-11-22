@@ -69,4 +69,4 @@ http.createServer(function (req, res) {
   file.serve(req, res);
 }).listen(8081);
 
-server.listen(8080);
+server.listen(80);

@@ -1,0 +1,37 @@
+name: CD
+on: [push]
+jobs:
+  # test:
+  #   ...
+  deploy:
+    name: "Deploy to production"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # needs: test
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host prod
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Stop the server
+        run: ssh prod 'sudo pm2 stop Web'
+
+      - name: Check out the source
+        run: ssh prod 'cd RenXServerViewer && git fetch && git reset --hard origin/main && npm i'
+
+      - name: Start the server
+        if: ${{ always() }}
+        run: ssh prod 'sudo pm2 restart Web'

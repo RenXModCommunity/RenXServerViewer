@@ -99,6 +99,7 @@ li {
     }
     #madeby {
         text-align: center !important;
+        width: 100%;
     }
     #joindc {
         text-align: center !important;
@@ -132,7 +133,7 @@ li {
 #madeby {
     position: absolute;
     right: 0;
-    width: 100%;
+    width: 50%;
     z-index: 10;
     opacity: 0;
     transition: opacity 0.2s;

@@ -1,0 +1,210 @@
+html {
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Arimo', sans-serif;
+    font-weight: 600;
+    color: #b0e5ff;
+    text-shadow: 0px 0px 21px rgb(53, 188, 255);
+    height: 100vh;
+}
+
+#bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.heart {
+    text-shadow: 0px 0px 21px rgb(221, 41, 41);
+}
+
+.list {
+    display: none;
+    height: 95vh;
+    overflow-y: auto;
+    width: max-content;
+    float: right;
+    padding: 21px;
+    background-color: rgba(71, 4, 4, 0.8);
+}
+
+ul {
+    column-count: 2;
+}
+
+li {
+    white-space: nowrap;
+}
+
+.title {
+    text-shadow: 0px 0px 21px rgba(53,186,255,0.63);
+    color: #b0e5ff;
+    width: fit-content;
+    padding: 0px 0.5em;
+    background-image: url(imgs/rx-bg.png);
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    font-family: 'Barlow Semi Condensed', sans-serif
+}
+
+.is-gapless {
+    margin: 0 !important
+}
+
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image:
+    /* top, transparent red */ linear-gradient(
+        rgba(0, 0, 0, 0.45),
+        rgba(0, 0, 0, 0.45)
+        ),
+        /* your image */ url(https://i.imgur.com/sFpmCVe.png);
+}
+
+.bottomleft {
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    font-size: 12px;
+}
+
+.bottomright {
+    position: absolute;
+    bottom: 0;
+    right: 16px;
+    font-size: 12px;
+}
+
+.middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#notsponsored {
+    position: relative;
+    top: 1;
+    transition: opacity 0.2s;
+}
+
+@media screen and (max-width: 768px) {
+    #notsponsored {
+        text-align: center !important;
+    }
+    #madeby {
+        text-align: center !important;
+    }
+    #joindc {
+        text-align: center !important;
+    }
+}
+
+.playerlist_nav {
+    padding: 1em;
+}
+
+.playerlist_btn {
+    float: right;
+}
+
+.playerlist_menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: max-content;
+    z-index: 20;
+}
+
+.playerlist_nav.active {
+    background-color: rgba(71, 4, 4, 0.8);
+}
+
+.list.active {
+    display: block !important;
+}
+
+#madeby {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#madeby:hover {
+    opacity: 1
+}
+
+#madeby:hover ~ #notsponsored {
+    opacity: 0
+}
+.newnew {
+    opacity: 0;
+    position: absolute;
+    bottom: 0;
+    right: 16px;
+    font-size: 12px;
+}
+
+.new {
+    opacity: 0;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.old,
+.new {
+    transition: opacity 0.3s linear;
+}
+
+.wrap:hover .old {
+    opacity: 0;
+}
+
+.wrap:hover .new {
+    opacity: 1;
+}
+
+.oldold,
+.newnew {
+    transition: opacity 0.3s linear;
+}
+
+.wrap:hover .oldold {
+    opacity: 0;
+}
+
+.wrap:hover .newnew {
+    opacity: 1;
+}
+
+hr {
+    margin: auto;
+    width: 40%;
+}
+
+h1 {
+    font-size: 63px;
+}
+
+a:link, a:visited {
+    color: #b0e5ff;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover, a:active, a:focus {
+    color: #b0e5ff;
+    background-color: transparent;
+    text-decoration: underline;
+}

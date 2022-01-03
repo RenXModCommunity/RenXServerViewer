@@ -61,12 +61,14 @@ function broadcastToSocket() {
   io.local.emit("renxData", renxdata);
 }
 
-var nstatic = require("node-static");
-
-var file = new(nstatic.Server)(__dirname);
-
-http.createServer(function (req, res) {
-  file.serve(req, res);
+var static = require('node-static');
+ 
+var fileServer = new static.Server('./files');
+ 
+require('http').createServer(function (request, response) {
+    request.addListener('end', function () {
+        fileServer.serve(request, response);
+    }).resume();
 }).listen(8081);
 
 server.listen(80);

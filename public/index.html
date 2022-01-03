@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="EN">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="View status of Renegade X servers online.">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Renegade X - Server List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      html {
+          overflow: hidden;
+      }
+
+      body {
+          font-family: 'Arimo', sans-serif;
+          font-weight: 600;
+          color: #b0e5ff;
+          text-shadow: 0px 0px 21px rgb(53, 188, 255);
+          height: 100vh;
+      }
+
+      #bottom {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+      }
+
+      .heart {
+          text-shadow: 0px 0px 21px rgb(221, 41, 41);
+      }
+
+      .list {
+          display: none;
+          height: 95vh;
+          overflow-y: auto;
+          width: max-content;
+          float: right;
+          padding: 21px;
+          background-color: rgba(71, 4, 4, 0.8);
+      }
+
+      ul {
+          column-count: 2;
+      }
+
+      li {
+          white-space: nowrap;
+      }
+
+      .title {
+          text-shadow: 0px 0px 21px rgba(53,186,255,0.63);
+          color: #b0e5ff;
+          width: fit-content;
+          padding: 0px 0.5em;
+          background-image: url(https://i.ibb.co/x5zXtxb/rx-bg.png);
+          background-position: center;
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          font-family: 'Barlow Semi Condensed', sans-serif
+      }
+
+      .is-gapless {
+          margin: 0 !important
+      }
+
+      .bgimg {
+          background-position: center;
+          background-size: cover;
+          background-image:
+          /* top, transparent red */ linear-gradient(
+              rgba(0, 0, 0, 0.45),
+              rgba(0, 0, 0, 0.45)
+              ),
+              /* your image */ url(https://i.imgur.com/sFpmCVe.png);
+      }
+
+      .bottomleft {
+          position: absolute;
+          bottom: 0;
+          left: 16px;
+          font-size: 12px;
+      }
+
+      .bottomright {
+          position: absolute;
+          bottom: 0;
+          right: 16px;
+          font-size: 12px;
+      }
+
+      .middle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+      }
+
+      #notsponsored {
+          position: relative;
+          top: 1;
+          transition: opacity 0.2s;
+      }
+
+      @media screen and (max-width: 768px) {
+          #notsponsored {
+              text-align: center !important;
+          }
+          #madeby {
+              text-align: center !important;
+              width: 100%;
+          }
+          #joindc {
+              text-align: center !important;
+          }
+      }
+
+      .playerlist_nav {
+          padding: 1em;
+      }
+
+      .playerlist_btn {
+          float: right;
+      }
+
+      .playerlist_menu {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: max-content;
+          z-index: 20;
+      }
+
+      .playerlist_nav.active {
+          background-color: rgba(71, 4, 4, 0.8);
+      }
+
+      .list.active {
+          display: block !important;
+      }
+
+      #madeby {
+          position: absolute;
+          right: 0;
+          width: 50%;
+          z-index: 10;
+          opacity: 0;
+          transition: opacity 0.2s;
+      }
+
+      #madeby:hover {
+          opacity: 1
+      }
+
+      #madeby:hover ~ #notsponsored {
+          opacity: 0
+      }
+      .newnew {
+          opacity: 0;
+          position: absolute;
+          bottom: 0;
+          right: 16px;
+          font-size: 12px;
+      }
+
+      .new {
+          opacity: 0;
+          position: absolute;
+          top: 55%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+      }
+
+      .old,
+      .new {
+          transition: opacity 0.3s linear;
+      }
+
+      .wrap:hover .old {
+          opacity: 0;
+      }
+
+      .wrap:hover .new {
+          opacity: 1;
+      }
+
+      .oldold,
+      .newnew {
+          transition: opacity 0.3s linear;
+      }
+
+      .wrap:hover .oldold {
+          opacity: 0;
+      }
+
+      .wrap:hover .newnew {
+          opacity: 1;
+      }
+
+      hr {
+          margin: auto;
+          width: 40%;
+      }
+
+      h1 {
+          font-size: 63px;
+      }
+
+      a:link, a:visited {
+          color: #b0e5ff;
+          background-color: transparent;
+          text-decoration: none;
+      }
+
+      a:hover, a:active, a:focus {
+          color: #b0e5ff;
+          background-color: transparent;
+          text-decoration: underline;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var io = io();
+      var socket = io.connect("142.93.67.215:8080");
+      var allServers;
+      var savedIndex = -1;
+      var lastUUID = "";
+
+      socket.on("message", function (message) {
+        console.log("Server: " + message);
+        lastUUID = document.cookie.slice(9);
+      });
+
+      socket.on("renxData", function (rawdata) {
+        allServers = rawdata;
+
+        var x = document.getElementById("server-names");
+        x.length = 0;
+
+        for (const server in allServers) {
+          var option = document.createElement("option");
+          option.text =
+            allServers[server].Name +
+            ` (${allServers[server].Players}/${allServers[server]["Variables"]["Player Limit"]})`;
+          option.value = allServers[server].UUID;
+          x.add(option);
+        }
+
+        if (lastUUID != "") {
+          document.getElementById("server-names").selectedIndex =
+            allServers.findIndex((e) => e.UUID == lastUUID);
+        }
+      });
+
+      function setBG(map) {
+        switch (map) {
+          case "Field":
+            map = "https://i.ibb.co/cYP8pNg/field1.png";
+            break;
+          case "Canyon":
+            map = "https://i.ibb.co/Cv17WX4/canyon3.png";
+            break;
+          case "Lakeside":
+            map = "https://i.ibb.co/hW1nNk3/lakeside4.png";
+            break;
+          case "Mesa":
+            map = "https://i.ibb.co/WkBnrYG/mesa2.png";
+            break;
+          case "Complex":
+            map = "https://i.ibb.co/DWwbLFr/complex1.png";
+            break;
+          case "Snow":
+            map = "https://i.ibb.co/BLqft0R/snow1.png";
+            break;
+          case "Under":
+            map = "https://i.ibb.co/CVnNX2Y/under3.png";
+            break;
+          case "Islands":
+            map = "https://i.ibb.co/YtL80RM/islands1.png";
+            break;
+          case "XMountain":
+            map = "https://i.ibb.co/0Y8VGLB/xmountain2.png";
+            break;
+          case "Whiteout":
+            map = "https://i.ibb.co/TqpZq4s/whiteout2.png";
+            break;
+          case "GoldRush":
+            map = "https://i.ibb.co/Tc8w3yQ/goldrush1.png";
+            break;
+          case "Field X":
+            map = "https://i.ibb.co/rwkWPpK/fieldx1.png";
+            break;
+          case "Crash Site":
+            map = "https://i.ibb.co/2dkWSP4/crashsite1.png";
+            break;
+          case "Islands":
+            map = "https://i.ibb.co/6NLNjpy/islands3.png";
+            break;
+          case "Walls":
+            map = "https://i.ibb.co/gFKBvcj/walls4.png";
+            break;
+          default:
+            map = "https://i.ibb.co/cYP8pNg/field1.png";
+        }
+
+        document.getElementById(
+          "back"
+        ).style.backgroundImage = `linear-gradient(
+                rgba(0, 0, 0, 0.45),
+                rgba(0, 0, 0, 0.45)
+                ),
+                /* your image */
+                url('${map}')`;
+      }
+
+      function setInfo() {
+        var selectedServer;
+
+        if (!allServers) return;
+
+        selectedServer =
+          allServers[document.getElementById("server-names").selectedIndex];
+        servertitle.innerHTML = selectedServer.Name;
+        playersfield.innerHTML = selectedServer.Players;
+        botsfield.innerHTML = selectedServer.Bots;
+        mapfield.innerHTML = selectedServer["Current Map"]
+          .slice(selectedServer["Current Map"].indexOf("-") + 1)
+          .replaceAll("_", " ");
+        maxfield.innerHTML = "/ " + selectedServer["Variables"]["Player Limit"];
+        addedfield.innerHTML =
+          "Total: " +
+          parseInt(selectedServer.Players + parseInt(selectedServer.Bots));
+        lastUUID = selectedServer.UUID;
+        document.cookie = "lastuuid=" + lastUUID + ";secure";
+        document.title = `${selectedServer.Name} - ${mapfield.innerHTML} (${selectedServer.Players} ${maxfield.innerHTML})`;
+
+        setBG(
+          selectedServer["Current Map"]
+            .slice(selectedServer["Current Map"].indexOf("-") + 1)
+            .replaceAll("_", " ")
+        );
+
+        var nodlist = document.getElementById("nodlist");
+        nodlist.innerHTML = "";
+
+        for (const player in selectedServer["PlayerList"]) {
+          var node = document.createElement("LI");
+          var textnode = document.createTextNode(
+            selectedServer["PlayerList"][player].Name
+          );
+          node.appendChild(textnode);
+          nodlist.appendChild(node);
+        }
+      }
+
+      setInterval(setInfo, 100);
+    </script>
+  </head>
+  <body id="back" class="bgimg">
+    <div class="pt-4 pl-4">
+      <h3 id="servertitle" class="title is-uppercase">Renegade X Server</h3>
+      <label for="server-names">Choose a server:</label>
+      <select name="server-names" id="server-names">
+        <option value="SomeUUID">Renegade X Server</option>
+      </select>
+    </div>
+    <div class="playerlist_menu">
+      <nav class="playerlist_nav is-clearfix" id="playerlist-nav">
+        <button class="playerlist_btn" onclick="showmenu()">Player List</button>
+      </nav>
+      <div id="list" class="list">
+        <ul id="nodlist">
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+          <li>SOme Nraomd Guy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="middle">
+        <div class="old">
+          <h1 id="mapfield" class="title is-size-1 has-text-centered is-uppercase">Field</h1>
+          <span>Player Count:</span>
+          <span id="playersfield">0</span>
+          <span id="maxfield">/ 64</span>
+          <div>
+            <span>Bot Count:</span>
+            <span id="botsfield">69</span>
+          </div>
+        </div>
+        <div class="new">
+          <h1 id="addedfield">Total: 69</h1>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-gapless" id="bottom">
+      <div class="column has-text-left">
+        <p class="pt-4 pb-4 pr-4 pl-4" id="joindc">
+          <a target="_blank" href="https://discord.gg/renegadex">Join Renegade X on Discord!</a>
+        </p>
+      </div>
+      <div class="column">
+        <div class="has-text-right pt-4 pb-4 pr-4 pl-4" id="madeby">
+          <p>Made with <span class="heart">❤️</span> by <a target="_blank" href="https://github.com/sevans045">Sarah</a> and <a target="_blank" href="https://github.com/brunobits">Bruni</a></p>
+        </div>
+        <div class="has-text-right pt-4 pb-4 pr-4 pl-4" id="notsponsored">
+          <p>Not sponsored or affiliated with Totem Arts or EA</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var playerlist_nav = document.getElementById("playerlist-nav");
+      var playerlist = document.getElementById("list");
+
+      function showmenu() {
+        if (playerlist.classList.contains("active")) {
+          playerlist.classList.remove("active");
+          playerlist_nav.classList.remove("active");
+        }
+        else {
+          playerlist.classList.add("active");
+          playerlist_nav.classList.add("active");
+        }
+      }
+    </script>
+  </body>
+</html>
